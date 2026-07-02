@@ -13,6 +13,10 @@ const CONFIG = {
   // วันครบรอบของคุณ (รูปแบบ YYYY-MM-DD) — ใช้ตรวจสอบตอน Login และคำนวณ Love Counter
   anniversaryDate: "2026-04-09",
 
+  // วัน-เวลาที่จะ "ปลดล็อก" เว็บไซต์ (รูปแบบ YYYY-MM-DDTHH:MM:SS ตามเวลาเครื่องผู้เข้าชม)
+  // ก่อนถึงเวลานี้ ผู้เข้าชมจะเห็นแค่หน้านับถอยหลัง กดเข้าหน้า Login/เว็บไซต์หลักไม่ได้
+  unlockAt: "2026-07-09T00:00:00",
+
   // ชื่อคู่รักทั้งสอง
   names: {
     a: "Phu",
@@ -157,7 +161,58 @@ function safeImage(imgEl, src, fallbackEmoji = "📷"){
 }
 
 /* =====================================================================
-   5. LOGIN FLOW
+   5. LOCK GATE — บล็อกการเข้าเว็บทั้งหมดจนกว่าจะถึง CONFIG.unlockAt
+   ===================================================================== */
+function initLockGate(){
+  const unlockTime = new Date(CONFIG.unlockAt).getTime();
+
+  // ถึงเวลาแล้ว (หรือเลยมาแล้ว) ตอนโหลดหน้า — ข้ามหน้าล็อก เข้าสู่ Login ตามปกติ
+  if (Date.now() >= unlockTime){
+    $("#loginScreen").hidden = false;
+    initLogin();
+    return;
+  }
+
+  const lockScreen = $("#lockScreen");
+  const loginScreen = $("#loginScreen");
+  const lockHearts = $("#lockHearts");
+  const daysEl = $("#lkDays");
+  const hoursEl = $("#lkHours");
+  const minutesEl = $("#lkMinutes");
+  const secondsEl = $("#lkSeconds");
+
+  loginScreen.hidden = true;
+  lockScreen.hidden = false;
+
+  initAmbientLayer(lockHearts, { heartCount: 8, sparkleCount: 10 });
+
+  function tick(){
+    const diff = unlockTime - Date.now();
+
+    if (diff <= 0){
+      clearInterval(timer);
+      lockScreen.classList.add("is-leaving");
+      setTimeout(() => {
+        lockScreen.hidden = true;
+        loginScreen.hidden = false;
+        initLogin();
+      }, 700);
+      return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+    daysEl.textContent = Math.floor(totalSeconds / 86400);
+    hoursEl.textContent = pad(Math.floor((totalSeconds % 86400) / 3600));
+    minutesEl.textContent = pad(Math.floor((totalSeconds % 3600) / 60));
+    secondsEl.textContent = pad(totalSeconds % 60);
+  }
+
+  tick();
+  const timer = setInterval(tick, 1000);
+}
+
+/* =====================================================================
+   6. LOGIN FLOW
    ===================================================================== */
 function initLogin(){
   const loginScreen = $("#loginScreen");
@@ -222,7 +277,7 @@ function unlockMemories(loginScreen, locket){
 }
 
 /* =====================================================================
-   6. MAIN SITE INIT (called once, after unlock)
+   7. MAIN SITE INIT (called once, after unlock)
    ===================================================================== */
 let mainSiteInitialized = false;
 
@@ -555,7 +610,7 @@ function launchHeartExplosion(originEl){
 }
 
 /* =====================================================================
-   7. CONFETTI (lightweight canvas implementation — no external library)
+   8. CONFETTI (lightweight canvas implementation — no external library)
    ===================================================================== */
 function launchConfetti({ count = 120, spread = false } = {}){
   const canvas = $("#confettiCanvas");
@@ -618,7 +673,7 @@ window.addEventListener("resize", () => {
 });
 
 /* =====================================================================
-   8. SCROLL REVEAL (IntersectionObserver, fade/scale/blur handled in CSS)
+   9. SCROLL REVEAL (IntersectionObserver, fade/scale/blur handled in CSS)
    ===================================================================== */
 function initScrollReveal(){
   const items = $$(".reveal");
@@ -634,7 +689,7 @@ function initScrollReveal(){
 }
 
 /* =====================================================================
-   9. SCROLL THREAD (signature scroll-progress element)
+   10. SCROLL THREAD (signature scroll-progress element)
    ===================================================================== */
 function initScrollThread(){
   const line = $(".scroll-thread");
@@ -654,9 +709,9 @@ function initScrollThread(){
 }
 
 /* =====================================================================
-   10. BOOTSTRAP
+   11. BOOTSTRAP
    ===================================================================== */
 document.addEventListener("DOMContentLoaded", () => {
   initAmbientLayer($("#ambientLayer"), { heartCount: 6, sparkleCount: 8 });
-  initLogin();
+  initLockGate();
 });

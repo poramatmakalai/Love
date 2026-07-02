@@ -20,9 +20,48 @@
 <div class="ambient-layer" id="ambientLayer" aria-hidden="true"></div>
 
 <!-- ================================================================
+     LOCK SCREEN (แสดงก่อนถึง CONFIG.unlockAt — เข้าเว็บไม่ได้จนกว่าจะถึงเวลา)
+================================================================= -->
+<section id="lockScreen" class="login-screen lock-screen" hidden>
+  <div class="login-bg">
+    <div class="lock-bg__gradient"></div>
+    <div class="login-bg__overlay"></div>
+  </div>
+
+  <div class="login-hearts" id="lockHearts" aria-hidden="true"></div>
+
+  <div class="login-card glass-card" role="main">
+    <p class="lock-icon" aria-hidden="true">🔒</p>
+
+    <p class="login-eyebrow">💌 เร็ว ๆ นี้</p>
+    <h1 class="login-title">ยังไม่ถึงเวลานะ...</h1>
+    <p class="login-subtitle">เว็บไซต์นี้จะปลดล็อกในวันที่ 9 กรกฎาคม 2569<br>รออีกนิดนะ ❤️</p>
+
+    <div class="lock-countdown" id="lockCountdown">
+      <div class="lock-countdown__box">
+        <span class="lock-countdown__num" id="lkDays">0</span>
+        <span class="lock-countdown__label">วัน</span>
+      </div>
+      <div class="lock-countdown__box">
+        <span class="lock-countdown__num" id="lkHours">00</span>
+        <span class="lock-countdown__label">ชั่วโมง</span>
+      </div>
+      <div class="lock-countdown__box">
+        <span class="lock-countdown__num" id="lkMinutes">00</span>
+        <span class="lock-countdown__label">นาที</span>
+      </div>
+      <div class="lock-countdown__box">
+        <span class="lock-countdown__num" id="lkSeconds">00</span>
+        <span class="lock-countdown__label">วินาที</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
      LOGIN SCREEN
 ================================================================= -->
-<section id="loginScreen" class="login-screen">
+<section id="loginScreen" class="login-screen" hidden>
   <div class="login-bg">
     <div class="login-bg__image"></div>
     <div class="login-bg__overlay"></div>
