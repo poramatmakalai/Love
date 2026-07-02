@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Happy Anniversary ❤️ ของเราสองคน</title>
+<meta name="description" content="เว็บไซต์แห่งความทรงจำ ของขวัญวันครบรอบของเรา">
+
+<!-- Google Fonts: Playfair Display (display), Dancing Script (handwriting), Poppins (body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=Dancing+Script:wght@500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ================= Sparkle & Floating Hearts Canvas Layer (global ambient) ================= -->
+<div class="ambient-layer" id="ambientLayer" aria-hidden="true"></div>
+
+<!-- ================================================================
+     LOGIN SCREEN
+================================================================= -->
+<section id="loginScreen" class="login-screen">
+  <div class="login-bg">
+    <div class="login-bg__image"></div>
+    <div class="login-bg__overlay"></div>
+  </div>
+
+  <div class="login-hearts" id="loginHearts" aria-hidden="true"></div>
+
+  <div class="login-card glass-card" role="main">
+    <div class="locket" id="locket" aria-hidden="true">
+      <svg viewBox="0 0 100 100" class="locket__svg">
+        <defs>
+          <linearGradient id="locketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#F7C6D9"/>
+            <stop offset="50%" stop-color="#D9A5A0"/>
+            <stop offset="100%" stop-color="#9B6EA8"/>
+          </linearGradient>
+        </defs>
+        <path class="locket__heart" d="M50 88 C20 65 5 45 5 28 C5 12 18 2 32 2 C42 2 48 8 50 14 C52 8 58 2 68 2 C82 2 95 12 95 28 C95 45 80 65 50 88 Z" fill="url(#locketGrad)"/>
+      </svg>
+    </div>
+
+    <p class="login-eyebrow">❤️ Welcome My Love ❤️</p>
+    <h1 class="login-title">เว็บไซต์นี้ถูกสร้างขึ้นเพื่อคนที่สำคัญที่สุด</h1>
+    <p class="login-subtitle">กรุณาใส่ "วันที่คบกัน"<br>เพื่อเข้าสู่ระบบนะจ๊ะ</p>
+
+    <form id="loginForm" class="login-form" autocomplete="off">
+      <div class="input-wrap">
+        <input
+          type="date"
+          id="anniversaryInput"
+          class="date-input"
+          placeholder="เลือกวันครบรอบ"
+          required
+          aria-label="เลือกวันครบรอบ"
+        >
+      </div>
+
+      <button type="submit" class="btn-primary ripple-container" id="loginBtn">
+        <span class="btn-primary__label">❤️ เข้าสู่ความทรงจำ</span>
+      </button>
+
+      <p class="login-error" id="loginError" aria-live="polite"></p>
+    </form>
+
+    <div class="login-checking" id="loginChecking" aria-live="polite">
+      <div class="checking-ring"></div>
+      <p>กำลังตรวจสอบ...</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================================
+     MAIN SITE (hidden until unlocked)
+================================================================= -->
+<div id="mainSite" class="main-site" hidden>
+
+  <!-- Scroll progress thread (signature element) -->
+  <div class="scroll-thread" aria-hidden="true">
+    <div class="scroll-thread__line"></div>
+    <div class="scroll-thread__charm" id="scrollCharm">❤</div>
+  </div>
+
+  <!-- Music Player (floating) -->
+  <div class="music-player glass-card" id="musicPlayer">
+    <button class="music-player__toggle" id="musicToggle" aria-label="เล่น/หยุดเพลง">
+      <span id="musicIcon">▶</span>
+    </button>
+    <div class="music-player__info">
+      <p class="music-player__title" id="musicTitle">เพลงของเรา</p>
+      <div class="music-player__bar">
+        <div class="music-player__progress" id="musicProgress"></div>
+      </div>
+    </div>
+    <div class="music-player__volume">
+      <input type="range" id="volumeSlider" min="0" max="100" value="60" aria-label="ระดับเสียง">
+    </div>
+    <audio id="bgMusic" loop preload="none"></audio>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="hero">
+    <div class="hero__bg" id="heroBg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">✨ Happy Anniversary ✨</p>
+      <h1 class="hero__title" id="heroTitle">Happy Anniversary ❤️</h1>
+      <p class="hero__names" id="heroNames"></p>
+      <button class="btn-outline ripple-container" id="startBtn">เริ่มต้นเรื่องราวของเรา</button>
+    </div>
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span></span>
+    </div>
+  </header>
+
+  <!-- ============ TIMELINE ============ -->
+  <section class="section timeline-section" id="timeline">
+    <h2 class="section-title reveal">เส้นทางของเรา</h2>
+    <p class="section-subtitle reveal">ทุกก้าวที่เดินผ่านมาด้วยกัน</p>
+    <div class="timeline" id="timelineList"></div>
+  </section>
+
+  <!-- ============ GALLERY ============ -->
+  <section class="section gallery-section" id="gallery">
+    <h2 class="section-title reveal">คลังความทรงจำ</h2>
+    <p class="section-subtitle reveal">เค้ามีรูปน้อย อ้วนไม่โกรธเค้านะ </p>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+  <!-- ============ LOVE LETTER ============ -->
+  <section class="section letter-section" id="loveLetter">
+    <h2 class="section-title reveal">จดหมายรัก</h2>
+    <div class="letter-paper reveal">
+      <div class="letter-paper__inner">
+        <p class="letter-text" id="letterText"></p>
+        <span class="letter-cursor" id="letterCursor">|</span>
+        <p class="letter-signoff" id="letterSignoff"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOVE COUNTER ============ -->
+  <section class="section counter-section" id="loveCounter">
+    <h2 class="section-title reveal light">เรารักกันมาแล้ว</h2>
+    <div class="counter-grid reveal">
+      <div class="counter-box">
+        <span class="counter-num" id="cYears">0</span>
+        <span class="counter-label">ปี</span>
+      </div>
+      <div class="counter-box">
+        <span class="counter-num" id="cMonths">0</span>
+        <span class="counter-label">เดือน</span>
+      </div>
+      <div class="counter-box">
+        <span class="counter-num" id="cDays">0</span>
+        <span class="counter-label">วัน</span>
+      </div>
+      <div class="counter-box">
+        <span class="counter-num" id="cHours">0</span>
+        <span class="counter-label">ชั่วโมง</span>
+      </div>
+      <div class="counter-box">
+        <span class="counter-num" id="cMinutes">0</span>
+        <span class="counter-label">นาที</span>
+      </div>
+      <div class="counter-box">
+        <span class="counter-num" id="cSeconds">0</span>
+        <span class="counter-label">วินาที</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REASONS I LOVE YOU ============ -->
+  <section class="section reasons-section" id="reasons">
+    <h2 class="section-title reveal">เหตุผลที่รักเธอ</h2>
+    <p class="section-subtitle reveal">มีเป็นล้านเหตุผล แต่นี่คือบางส่วน...</p>
+    <div class="reason-card glass-card reveal" id="reasonCard">
+      <span class="reason-card__number" id="reasonNumber">01</span>
+      <p class="reason-card__text" id="reasonText"></p>
+    </div>
+    <button class="btn-primary ripple-container reveal" id="shuffleBtn">🔀 สุ่มเหตุผล</button>
+  </section>
+
+  <!-- ============ SURPRISE ============ -->
+  <section class="section surprise-section" id="surprise">
+    <h2 class="section-title reveal light">ยังมีอะไรพิเศษรออยู่...</h2>
+    <button class="gift-btn reveal" id="giftBtn">
+      <span class="gift-btn__icon">🎁</span>
+      <span class="gift-btn__label">เปิดของขวัญ</span>
+    </button>
+    <div class="surprise-message" id="surpriseMessage">
+      <p class="surprise-message__main">สุขสันวันครบรอบ 3 เดือน นะเบบี๋ของเค้า รักอ้วนนะคับ ❤️</p>
+      <p class="surprise-message__sub">Happy Anniversary</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer__heart">❤</div>
+    <p class="footer__text">ขอบคุณที่เข้ามาเป็นส่วนหนึ่งของชีวิต</p>
+    <p class="footer__text">"หวังว่าเราจะมีวันครบรอบแบบนี้ไปอีกหลาย ๆ ปี นะอ้วน><"</p>
+    <p class="footer__symbol">❤</p>
+  </footer>
+
+</div>
+
+<!-- ============ LIGHTBOX (shared) ============ -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox__close" id="lightboxClose" aria-label="ปิด">✕</button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="รูปก่อนหน้า">‹</button>
+  <div class="lightbox__stage">
+    <img src="" alt="" id="lightboxImg" class="lightbox__img">
+    <p class="lightbox__caption" id="lightboxCaption"></p>
+  </div>
+  <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="รูปถัดไป">›</button>
+</div>
+
+<!-- ============ CONFETTI CANVAS (shared, full-screen overlay) ============ -->
+<canvas id="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
+
+<script src="js/script.js"></script>
+</body>
+</html>
