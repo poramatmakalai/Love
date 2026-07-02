@@ -45,6 +45,10 @@
   --radius-lg: 28px;
   --radius-md: 18px;
   --radius-sm: 10px;
+
+  --font-display: 'Playfair Display', 'Noto Serif Thai', serif;
+  --font-hand: 'Dancing Script', 'Mitr', cursive;
+  --font-body: 'Poppins', 'Sarabun', sans-serif;
 }
 
 /* ---------------------------------------------------------------------
